@@ -22,6 +22,7 @@ import {
 import tilesJSON from "../../utils/tiles.json";
 import { shuffleArray } from "../../utils/shuffle-array";
 import { Tile } from "./tile";
+import { findOkey } from "../../utils/find-okey";
 
 export const Table = () => {
   const { players, ready, activePlayer } = useTable();
@@ -44,13 +45,10 @@ export const Table = () => {
     if (status === "playing") {
       // taşları karıştır
       const mixedTiles = shuffleArray(tilesJSON);
+
       // okeyi belirle
       const beforeOkey = mixedTiles.pop();
-      const okey = mixedTiles.find(
-        (tile) =>
-          tile.color === beforeOkey.color &&
-          tile.number === (beforeOkey.number === 13 ? 1 : beforeOkey.number + 1)
-      );
+      const okey = findOkey(mixedTiles, beforeOkey);
       setOkey(okey);
 
       // taşları oyunuculara dağıttık
